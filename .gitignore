@@ -3,3 +3,4 @@
 **/Debug/
 *.emSession
 *.jlink
+.DS_Store
