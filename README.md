@@ -1,0 +1,1 @@
+Repository for Lab 6: The Internet of Things and Serial Peripheral Interface as part of E155: Microprocessor Systems and Design at Harvey Mudd College.
