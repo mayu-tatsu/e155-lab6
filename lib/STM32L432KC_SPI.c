@@ -6,7 +6,7 @@
 
 void initSPI(int br, int cpol, int cpha) {
   enableGPIOBClock();
-  enableSpi1Clock();
+  enableSPI1Clock();
 
   pinMode(SPI_CS, GPIO_OUTPUT);
   pinMode(SPI_SCK, GPIO_ALT);

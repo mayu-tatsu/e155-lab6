@@ -114,7 +114,7 @@ int main(void) {
 
     char tempStatusStr[32];
     float temp = getTemp();
-    sprintf(tempStatusStr, "Temperature: %.4f", temp);
+    sprintf(tempStatusStr, "Temperature: %.4f degrees C", temp);
     
   
     // Update string with current LED state
