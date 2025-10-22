@@ -5,34 +5,37 @@
 #include <stdint.h>
 
 // Initializes DS1722 temperature sensor
-void initTempSensor() {
-  digitalWrite(SPI_CS, PIO_LOW);            // CS pin active low
+void initTempSensor(void) {
+  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active low
 
   spiSendReceive(0x80);                     // write to CSR register
   spiSendReceive(0xEE);                     // Continuous conversion mode
 
-  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin inactive high
+  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive high
   return;
 }
 
 // Reads temperature from DS1722 temperature sensor.
 // Return: Temperature in deg.C
-float getTemp(){
-  digitalWrite(SPI_CS, PIO_LOW);            // CS pin active low
+float getTemp(void){
+  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active low
 
   spiSendReceive(0x02);                     // read msb register
-  int8_t msb = spiSendReceive(0xFF);        // dummy write for msb
+  uint8_t msb = spiSendReceive(0xFF);        // dummy write for msb
   spiSendReceive(0x01);                     // read lsb register
   uint8_t lsb = spiSendReceive(0xFF);       // dummy write for lsb
 
-  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin inactive high
+  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive high
 
   float temp = msb + (float) lsb / 256.0;   // calculation
+
+  printf("msb: %d\n", msb);
+  printf("lsb: %d\n", lsb);
   return temp;
 }
 
 void setPrecision(uint8_t prec) {
-  digitalWrite(SPI_CS, PIO_LOW);            // CS pin active low
+  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active low
 
   spiSendReceive(0x80);                     // write to CSR register
   if (prec == 8) {
@@ -52,6 +55,6 @@ void setPrecision(uint8_t prec) {
     delay_millis(TIM15, 800);
   }
 
-  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin inactive high
+  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive high
   return;
 }

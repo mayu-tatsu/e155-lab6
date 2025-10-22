@@ -49,7 +49,7 @@ int updateLEDStatus(char request[])
 }
 
 void updateTempPrec(char request[]) {
-  int precision = 10;                       // default
+  int precision = 9;                       // default
   if (inString(request, "prec8") == 1) {
     precision = 8;
   } else if (inString(request, "prec9") == 1) {
@@ -78,7 +78,8 @@ int main(void) {
   gpioEnable(GPIO_PORT_A);
   gpioEnable(GPIO_PORT_B);
   gpioEnable(GPIO_PORT_C);
-
+  
+  pinMode(PA6, GPIO_OUTPUT);
   pinMode(PB3, GPIO_OUTPUT);
   
   RCC->APB2ENR |= (RCC_APB2ENR_TIM15EN);      // turn this into a one-liner function
@@ -89,6 +90,25 @@ int main(void) {
   initSPI(0b111, 0, 1);                       // SPI clk = fPCLK / 256, CPOL = 0, CPHA = 1
   initTempSensor();
 
+  // Debug while loop
+  while(1) {
+    // float temp = getTemp();
+    // printf("Temperature: %.4f\n", temp);
+
+    digitalWrite(SPI_CS, PIO_HIGH);
+    spiSendReceive(0x80);
+    spiSendReceive(0xE0);
+    digitalWrite(SPI_CS, PIO_LOW);
+
+    delay_millis(TIM15, 50);
+
+    digitalWrite(SPI_CS, PIO_HIGH);
+    spiSendReceive(0x00);
+    uint8_t output = spiSendReceive(0xEE);
+    digitalWrite(SPI_CS, PIO_LOW);
+
+    printf("Output: %x\n", output);
+  }
 
   while(1) {
     /* Wait for ESP8266 to send a request.
@@ -112,9 +132,9 @@ int main(void) {
     updateTempPrec(request);
 
     char tempStatusStr[32];
+    float temp = getTemp();
     sprintf(tempStatusStr, "Temperature: %.4f", temp);
-    float temp = readTemp();
-
+    
   
     // Update string with current LED state
   
@@ -129,6 +149,7 @@ int main(void) {
     // finally, transmit the webpage over UART
     sendString(USART, webpageStart); // webpage header code
     sendString(USART, ledStr); // button for controlling LED
+    sendString(USART, tempStr);
 
     sendString(USART, "<h2>LED Status</h2>");
 
@@ -136,6 +157,15 @@ int main(void) {
     sendString(USART, "<p>");
     sendString(USART, ledStatusStr);
     sendString(USART, "</p>");
+
+
+    sendString(USART, "<h2>Temp Status</h2>");
+
+
+    sendString(USART, "<p>");
+    sendString(USART, tempStatusStr);
+    sendString(USART, "</p>");
+
 
   
     sendString(USART, webpageEnd);
