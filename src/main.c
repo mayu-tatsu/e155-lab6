@@ -50,7 +50,7 @@ int updateLEDStatus(char request[])
 	return led_status;
 }
 
-void updateTempPrec(char request[]) {
+int updateTempPrec(char request[]) {
   int precision = 9;                       // default
   if (inString(request, "prec8") == 1) {
     precision = 8;
@@ -66,7 +66,7 @@ void updateTempPrec(char request[]) {
 
   setPrecision(precision);
 
-  return;
+  return precision;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -110,10 +110,10 @@ int main(void) {
 
     // TODO: Add SPI code here for reading temperature
 
-    updateTempPrec(request);
+    int precision = updateTempPrec(request);
 
     char tempStatusStr[32];
-    float temp = getTemp();
+    float temp = getTemp(precision);
     sprintf(tempStatusStr, "Temperature: %.4f degrees C", temp);
     
   

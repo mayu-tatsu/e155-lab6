@@ -16,7 +16,7 @@ void initTempSensor(void) {
   return;
 }
 
-float getTemp(void){
+float getTemp(int precision){
   digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active high
 
   spiSendReceive(0x02);                     // read msb register
@@ -25,8 +25,13 @@ float getTemp(void){
   uint8_t lsb = spiSendReceive(0xFF);       // dummy write for lsb
 
   digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive low
-
-  float temp = msb + (float) lsb / 256.0;   // calculation
+  
+  // temperature calculation
+  float temp = 0.0f;
+  if (precision == 8)
+    temp = msb;
+  else
+    temp = msb + (float) lsb / 256.0;
   return temp;
 
 

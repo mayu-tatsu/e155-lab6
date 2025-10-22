@@ -16,7 +16,7 @@ void initTempSensor(void);
 
 // Reads temperature from DS1722 temperature sensor.
 // Return: Temperature in deg.C
-float getTemp(void);
+float getTemp(int precision);
 
 // Sets the precision of temperature measurements.
 // Parameter: prec - desired precision in bits (8, 9, 10, 11, or 12)
