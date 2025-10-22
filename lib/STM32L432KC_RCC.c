@@ -35,3 +35,15 @@ void configureClock(){
 
   SystemCoreClockUpdate();
 }
+
+void enableTIM15Clock(void) {
+  RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
+}
+
+void enableGPIOBClock(void) {
+  RCC->AHB2ENR |= _VAL2FLD(RCC_AHB2ENR_GPIOBEN, 0b1);
+}
+
+void enableSPI1Clock(void) {
+  RCC->APB2ENR |= _VAL2FLD(RCC_APB2ENR_SPI1EN, 0b1); 
+}

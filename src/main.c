@@ -1,4 +1,6 @@
 // main.c
+// Mayu Tatsumi; mtatsumi@g.hmc.edu
+// 2025-10-22
 
 #include <string.h>
 #include <stdlib.h>
@@ -81,33 +83,13 @@ int main(void) {
   
   pinMode(PA6, GPIO_OUTPUT);                  // LED
   
-  RCC->APB2ENR |= (RCC_APB2ENR_TIM15EN);      // turn this into a one-liner function
+  enableTIM15Clock();
   initTIM(TIM15);
   
   USART_TypeDef * USART = initUSART(USART1_ID, 125000);
 
   initSPI(0b111, 0, 1);                       // SPI clk = fPCLK / 256, CPOL = 0, CPHA = 1
   initTempSensor();
-
-  // Debug while loop
-  /* while(1) {
-    // float temp = getTemp();
-    // printf("Temperature: %.4f\n", temp);
-
-    digitalWrite(SPI_CS, PIO_HIGH);
-    spiSendReceive(0x80);
-    spiSendReceive(0xE2);
-    digitalWrite(SPI_CS, PIO_LOW);
-
-    delay_millis(TIM15, 100);
-
-    digitalWrite(SPI_CS, PIO_HIGH);
-    spiSendReceive(0x00);
-    uint8_t output = spiSendReceive(0xE2);
-    digitalWrite(SPI_CS, PIO_LOW);
-
-    printf("Output: %x\n", output);
-  }*/
 
   while(1) {
     /* Wait for ESP8266 to send a request.
@@ -152,7 +134,6 @@ int main(void) {
 
     sendString(USART, "<h2>LED Status</h2>");
 
-
     sendString(USART, "<p>");
     sendString(USART, ledStatusStr);
     sendString(USART, "</p>");
@@ -160,11 +141,9 @@ int main(void) {
 
     sendString(USART, "<h2>Temp Status</h2>");
 
-
     sendString(USART, "<p>");
     sendString(USART, tempStatusStr);
     sendString(USART, "</p>");
-
 
   
     sendString(USART, webpageEnd);

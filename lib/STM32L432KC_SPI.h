@@ -1,8 +1,6 @@
 // STM32L432KC_SPI.h
-// TODO: <YOUR NAME>
-// TODO: <YOUR EMAIL>
-// TODO: <DATE>
-// TODO: <SHORT DESCRIPTION OF WHAT THIS FILE DOES>
+// Mayu Tatsumi; mtatsumi@g.hmc.edu
+// 2025-10-22
 
 #ifndef STM32L4_SPI_H
 #define STM32L4_SPI_H
@@ -13,8 +11,8 @@
 
 #define SPI_CS PB7    // white
 #define SPI_SCK PB3   // yellow
-#define SPI_SDI PB5   // bule
-#define SPI_SDO PB4   // gerrn
+#define SPI_SDO PB4   // green
+#define SPI_SDI PB5   // blue
 
 ///////////////////////////////////////////////////////////////////////////////
 // Function prototypes

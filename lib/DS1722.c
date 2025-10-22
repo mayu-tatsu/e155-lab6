@@ -1,31 +1,30 @@
 // DS1722.c
+// Mayu Tatsumi; mtatsumi@g.hmc.edu
+// 2025-10-22
 
 #include "DS1722.h"
 #include "STM32L432KC.h"        // includes everything
 #include <stdint.h>
 
-// Initializes DS1722 temperature sensor
 void initTempSensor(void) {
-  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active low
+  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active high
 
   spiSendReceive(0x80);                     // write to CSR register
   spiSendReceive(0xEE);                     // Continuous conversion mode
 
-  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive high
+  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive low
   return;
 }
 
-// Reads temperature from DS1722 temperature sensor.
-// Return: Temperature in deg.C
 float getTemp(void){
-  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active low
+  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active high
 
   spiSendReceive(0x02);                     // read msb register
   int8_t msb = spiSendReceive(0xFF);        // dummy write for msb
   spiSendReceive(0x01);                     // read lsb register
   uint8_t lsb = spiSendReceive(0xFF);       // dummy write for lsb
 
-  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive high
+  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive low
 
   float temp = msb + (float) lsb / 256.0;   // calculation
   return temp;
@@ -46,7 +45,7 @@ float getTemp(void){
 }
 
 void setPrecision(uint8_t prec) {
-  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active low
+  digitalWrite(SPI_CS, PIO_HIGH);           // CS pin active high
 
   spiSendReceive(0x80);                     // write to CSR register
   if (prec == 8) {
@@ -66,6 +65,6 @@ void setPrecision(uint8_t prec) {
     delay_millis(TIM15, 800);
   }
 
-  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive high
+  digitalWrite(SPI_CS, PIO_LOW);            // CS pin inactive low
   return;
 }

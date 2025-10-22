@@ -1,3 +1,7 @@
+// main.h
+// Mayu Tatsumi; mtatsumi@g.hmc.edu
+// 2025-10-22
+
 /**
     Main Header: Contains general defines and selected portions of CMSIS files
     @file main.h

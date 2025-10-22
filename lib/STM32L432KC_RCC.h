@@ -14,4 +14,8 @@
 void configurePLL();
 void configureClock();
 
+void enableTIM15Clock();
+void enableGPIOBClock();
+void enableSPI1Clock();
+
 #endif
