@@ -11,10 +11,10 @@
 #include <stm32l432xx.h>
 
 
-#define SPI_CS PB7
-#define SPI_SCK PB3
-#define SPI_SDI PB4
-#define SPI_SDO PB5
+#define SPI_CS PB7    // white
+#define SPI_SCK PB3   // yellow
+#define SPI_SDI PB5   // bule
+#define SPI_SDO PB4   // gerrn
 
 ///////////////////////////////////////////////////////////////////////////////
 // Function prototypes

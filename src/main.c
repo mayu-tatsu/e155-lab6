@@ -79,8 +79,7 @@ int main(void) {
   gpioEnable(GPIO_PORT_B);
   gpioEnable(GPIO_PORT_C);
   
-  pinMode(PA6, GPIO_OUTPUT);
-  pinMode(PB3, GPIO_OUTPUT);
+  pinMode(PA6, GPIO_OUTPUT);                  // LED
   
   RCC->APB2ENR |= (RCC_APB2ENR_TIM15EN);      // turn this into a one-liner function
   initTIM(TIM15);
@@ -91,7 +90,7 @@ int main(void) {
   initTempSensor();
 
   // Debug while loop
-  while(1) {
+  /* while(1) {
     // float temp = getTemp();
     // printf("Temperature: %.4f\n", temp);
 
@@ -104,11 +103,11 @@ int main(void) {
 
     digitalWrite(SPI_CS, PIO_HIGH);
     spiSendReceive(0x00);
-    uint8_t output = spiSendReceive(0xFF);
+    uint8_t output = spiSendReceive(0xE2);
     digitalWrite(SPI_CS, PIO_LOW);
 
     printf("Output: %x\n", output);
-  }
+  }*/
 
   while(1) {
     /* Wait for ESP8266 to send a request.
