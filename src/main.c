@@ -97,14 +97,14 @@ int main(void) {
 
     digitalWrite(SPI_CS, PIO_HIGH);
     spiSendReceive(0x80);
-    spiSendReceive(0xE0);
+    spiSendReceive(0xE2);
     digitalWrite(SPI_CS, PIO_LOW);
 
-    delay_millis(TIM15, 50);
+    delay_millis(TIM15, 100);
 
     digitalWrite(SPI_CS, PIO_HIGH);
     spiSendReceive(0x00);
-    uint8_t output = spiSendReceive(0xEE);
+    uint8_t output = spiSendReceive(0xFF);
     digitalWrite(SPI_CS, PIO_LOW);
 
     printf("Output: %x\n", output);
